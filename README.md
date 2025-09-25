@@ -8,15 +8,21 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ### Installing with Go
 
+<!-- x-release-please-start-version -->
+
 ```sh
-go install 'github.com/stainless-sdks/dedalus-sdk-cli/cmd/dedalus-sdk@latest'
+go install 'github.com/dedalus-labs/dedalus-cli/cmd/dedalus-sdk@latest'
 ```
 
 ### Running Locally
 
+<!-- x-release-please-start-version -->
+
 ```sh
 go run cmd/dedalus-sdk/main.go
 ```
+
+<!-- x-release-please-end -->
 
 ## Usage
 

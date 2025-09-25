@@ -10,7 +10,7 @@ jobs:
     name: release doctor
     runs-on: ubuntu-latest
     environment: production
-    if: github.repository == 'stainless-sdks/dedalus-sdk-cli' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release-please') || github.head_ref == 'next')
+    if: github.repository == 'dedalus-labs/dedalus-cli' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release-please') || github.head_ref == 'next')
 
     steps:
       - uses: actions/checkout@v4
@@ -18,5 +18,3 @@ jobs:
       - name: Check release environment
         run: |
           bash ./bin/check-release-environment
-        env:
-          STAINLESS_API_KEY: ${{ secrets.STAINLESS_API_KEY }}

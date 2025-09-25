@@ -6,9 +6,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/dedalus-labs/dedalus-cli/pkg/jsonflag"
 	"github.com/dedalus-labs/dedalus-sdk-go"
 	"github.com/dedalus-labs/dedalus-sdk-go/option"
-	"github.com/stainless-sdks/dedalus-sdk-cli/pkg/jsonflag"
 	"github.com/urfave/cli/v3"
 )
 

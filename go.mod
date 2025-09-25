@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/dedalus-sdk-cli
+module github.com/dedalus-labs/dedalus-cli
 
 go 1.24.0
 

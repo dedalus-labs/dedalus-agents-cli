@@ -14,11 +14,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/dedalus-labs/dedalus-cli/pkg/jsonflag"
+	"github.com/dedalus-labs/dedalus-cli/pkg/jsonview"
 	"github.com/dedalus-labs/dedalus-sdk-go"
 	"github.com/dedalus-labs/dedalus-sdk-go/option"
 	"github.com/itchyny/json2yaml"
-	"github.com/stainless-sdks/dedalus-sdk-cli/pkg/jsonflag"
-	"github.com/stainless-sdks/dedalus-sdk-cli/pkg/jsonview"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/pretty"
 	"github.com/urfave/cli/v3"
