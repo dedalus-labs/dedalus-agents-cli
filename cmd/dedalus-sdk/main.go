@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/dedalus-labs/dedalus-cli/pkg/cmd"
 	"github.com/dedalus-labs/dedalus-sdk-go"
-	"github.com/stainless-sdks/dedalus-sdk-cli/pkg/cmd"
 )
 
 func main() {
