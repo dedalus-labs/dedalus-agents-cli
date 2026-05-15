@@ -16,11 +16,11 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/apiform"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/apiquery"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/debugmiddleware"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/requestflag"
 	"github.com/dedalus-labs/dedalus-sdk-go/option"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/apiform"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/apiquery"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/debugmiddleware"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
 
 	"github.com/goccy/go-yaml"
 	"github.com/urfave/cli/v3"

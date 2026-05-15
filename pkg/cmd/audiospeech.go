@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/apiquery"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/requestflag"
 	"github.com/dedalus-labs/dedalus-sdk-go"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/apiquery"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
 	"github.com/urfave/cli/v3"
 )
 

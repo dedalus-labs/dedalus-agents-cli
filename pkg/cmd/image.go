@@ -6,10 +6,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/apiquery"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/requestflag"
 	"github.com/dedalus-labs/dedalus-sdk-go"
 	"github.com/dedalus-labs/dedalus-sdk-go/option"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/apiquery"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )

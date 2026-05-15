@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/gjson"
 
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/jsonview"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/jsonview"
 )
 
 func TestStreamOutput(t *testing.T) {

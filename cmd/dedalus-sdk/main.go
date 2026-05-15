@@ -10,8 +10,8 @@ import (
 	"os"
 	"slices"
 
+	"github.com/dedalus-labs/dedalus-agents-cli/pkg/cmd"
 	"github.com/dedalus-labs/dedalus-sdk-go"
-	"github.com/stainless-sdks/dedalus-sdk-cli/pkg/cmd"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )
