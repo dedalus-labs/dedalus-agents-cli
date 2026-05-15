@@ -16,8 +16,8 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/jsonview"
 	"github.com/dedalus-labs/dedalus-sdk-go/option"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/jsonview"
 
 	"github.com/charmbracelet/x/term"
 	"github.com/itchyny/json2yaml"

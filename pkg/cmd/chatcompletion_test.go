@@ -5,8 +5,8 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/mocktest"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/mocktest"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/requestflag"
 )
 
 func TestChatCompletionsCreate(t *testing.T) {

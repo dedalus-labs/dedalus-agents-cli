@@ -5,7 +5,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/mocktest"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/mocktest"
 )
 
 func TestEmbeddingsCreate(t *testing.T) {

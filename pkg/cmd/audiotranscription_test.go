@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/mocktest"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/mocktest"
 )
 
 func TestAudioTranscriptionsCreate(t *testing.T) {
