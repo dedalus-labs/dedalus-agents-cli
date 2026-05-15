@@ -67,7 +67,7 @@ snapshot:
 
 nfpms:
   - license: MIT
-    maintainer: founders@dedaluslabs.ai
+    maintainer: oss@dedaluslabs.ai
     bindir: /usr
     formats:
       - apk

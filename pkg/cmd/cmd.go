@@ -3,6 +3,7 @@
 package cmd
 
 import (
+	"bytes"
 	"compress/gzip"
 	"context"
 	"fmt"
@@ -11,20 +12,24 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/stainless-sdks/dedalus-sdk-cli/internal/autocomplete"
+	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )
 
 var (
-	Command       *cli.Command
-	OutputFormats = []string{"auto", "explore", "json", "pretty", "raw", "yaml"}
+	Command            *cli.Command
+	CommandErrorBuffer bytes.Buffer
 )
 
 func init() {
 	Command = &cli.Command{
-		Name:    "dedalus-sdk",
-		Usage:   "CLI for the Dedalus API",
-		Version: Version,
+		Name:      "dedalus-sdk",
+		Usage:     "CLI for the Dedalus API",
+		Suggest:   true,
+		Version:   Version,
+		ErrWriter: &CommandErrorBuffer,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:  "debug",
@@ -34,17 +39,79 @@ func init() {
 				Name:        "base-url",
 				DefaultText: "url",
 				Usage:       "Override the base URL for API requests",
+				Validator: func(baseURL string) error {
+					return ValidateBaseURL(baseURL, "--base-url")
+				},
 			},
 			&cli.StringFlag{
 				Name:  "format",
-				Usage: "The format for data output (one of: " + strings.Join(OutputFormats[:], ", ") + ")",
+				Usage: "The format for displaying response data (one of: " + strings.Join(OutputFormats, ", ") + ")",
 				Value: "auto",
 				Validator: func(format string) error {
-					if !slices.Contains(OutputFormats[:], strings.ToLower(format)) {
-						return fmt.Errorf("format must be one of: %s", strings.Join(OutputFormats[:], ", "))
+					if !slices.Contains(OutputFormats, strings.ToLower(format)) {
+						return fmt.Errorf("format must be one of: %s", strings.Join(OutputFormats, ", "))
 					}
 					return nil
 				},
+			},
+			&cli.StringFlag{
+				Name:  "format-error",
+				Usage: "The format for displaying error data (one of: " + strings.Join(OutputFormats, ", ") + ")",
+				Value: "auto",
+				Validator: func(format string) error {
+					if !slices.Contains(OutputFormats, strings.ToLower(format)) {
+						return fmt.Errorf("format must be one of: %s", strings.Join(OutputFormats, ", "))
+					}
+					return nil
+				},
+			},
+			&cli.StringFlag{
+				Name:  "transform",
+				Usage: "The GJSON transformation for data output.",
+			},
+			&cli.StringFlag{
+				Name:  "transform-error",
+				Usage: "The GJSON transformation for errors.",
+			},
+			&cli.BoolFlag{
+				Name:    "raw-output",
+				Aliases: []string{"r"},
+				Usage:   "If the result is a string, print it without JSON quotes. This can be useful for making output transforms talk to non-JSON-based systems.",
+			},
+			&requestflag.Flag[string]{
+				Name:    "api-key",
+				Usage:   "API key for Bearer token authentication.",
+				Sources: cli.EnvVars("DEDALUS_API_KEY"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "x-api-key",
+				Usage:   "API key for X-API-Key header authentication.",
+				Sources: cli.EnvVars("DEDALUS_X_API_KEY"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "as-base-url",
+				Usage:   "MCP Authorization Server URL",
+				Sources: cli.EnvVars("DEDALUS_AS_URL"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "dedalus-org-id",
+				Usage:   "Organization ID for request scoping.",
+				Sources: cli.EnvVars("DEDALUS_ORG_ID"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "provider",
+				Usage:   "Provider name for BYOK mode (e.g., 'google', 'openai', 'anthropic').",
+				Sources: cli.EnvVars("DEDALUS_PROVIDER"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "provider-key",
+				Usage:   "Provider API key for BYOK mode.",
+				Sources: cli.EnvVars("DEDALUS_PROVIDER_KEY"),
+			},
+			&requestflag.Flag[string]{
+				Name:    "provider-model",
+				Usage:   "Model identifier for BYOK provider.",
+				Sources: cli.EnvVars("DEDALUS_PROVIDER_MODEL"),
 			},
 			&cli.StringFlag{
 				Name:  "environment",
@@ -53,30 +120,76 @@ func init() {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:     "root",
-				Category: "API RESOURCE",
-				Commands: []*cli.Command{
-					&rootGet,
-				},
-			},
-			{
-				Name:     "health",
-				Category: "API RESOURCE",
-				Commands: []*cli.Command{
-					&healthCheck,
-				},
-			},
-			{
 				Name:     "models",
 				Category: "API RESOURCE",
+				Suggest:  true,
 				Commands: []*cli.Command{
 					&modelsRetrieve,
 					&modelsList,
 				},
 			},
 			{
+				Name:     "embeddings",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&embeddingsCreate,
+				},
+			},
+			{
+				Name:     "audio:speech",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&audioSpeechCreate,
+				},
+			},
+			{
+				Name:     "audio:transcriptions",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&audioTranscriptionsCreate,
+				},
+			},
+			{
+				Name:     "audio:translations",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&audioTranslationsCreate,
+				},
+			},
+			{
+				Name:     "images",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&imagesCreateVariation,
+					&imagesEdit,
+					&imagesGenerate,
+				},
+			},
+			{
+				Name:     "ocr",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&ocrProcess,
+				},
+			},
+			{
+				Name:     "responses",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&responsesCreate,
+				},
+			},
+			{
 				Name:     "chat:completions",
 				Category: "API RESOURCE",
+				Suggest:  true,
 				Commands: []*cli.Command{
 					&chatCompletionsCreate,
 				},
@@ -109,10 +222,20 @@ func init() {
 					},
 				},
 			},
+			{
+				Name:            "__complete",
+				Hidden:          true,
+				HideHelpCommand: true,
+				Action:          autocomplete.ExecuteShellCompletion,
+			},
+			{
+				Name:            "@completion",
+				Hidden:          true,
+				HideHelpCommand: true,
+				Action:          autocomplete.OutputCompletionScript,
+			},
 		},
-		EnableShellCompletion:      true,
-		ShellCompletionCommandName: "@completion",
-		HideHelpCommand:            true,
+		HideHelpCommand: true,
 	}
 }
 
