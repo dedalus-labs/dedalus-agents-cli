@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/dedalus-sdk-cli
+module github.com/dedalus-labs/dedalus-agents-cli
 
 go 1.25
 

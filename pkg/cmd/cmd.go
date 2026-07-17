@@ -12,8 +12,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/autocomplete"
-	"github.com/stainless-sdks/dedalus-sdk-cli/internal/requestflag"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/autocomplete"
+	"github.com/dedalus-labs/dedalus-agents-cli/internal/requestflag"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )
